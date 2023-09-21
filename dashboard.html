@@ -12,6 +12,7 @@
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
+            display: flex;
         }
 
         /* Header styles */
@@ -19,20 +20,15 @@
             background-color: #121212; /* Spotify background color */
             padding: 20px;
             text-align: center;
+            width: 100%;
+            position: fixed;
+            z-index: 1; /* Place it above other elements */
         }
 
         header h1 {
             font-size: 36px;
             color: #1DB954; /* Spotify Green */
             margin: 0;
-        }
-
-        /* Container styles */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            display: flex;
         }
 
         /* Sidebar styles */
@@ -43,11 +39,11 @@
             padding: 20px;
             box-sizing: border-box;
             height: 100vh;
-            position: fixed;
-            border-radius: 20px; /* Rounded corners for the sidebar */
-            border-right: 2px solid #1DB954; /* Green border on the right */
             overflow-y: auto; /* Enable vertical scrolling */
             overflow-x: hidden;
+            position: fixed;
+            left: 0;
+            top: 50px; /* Adjust the top position to avoid overlapping with the fixed header */
         }
 
         /* Floating effect */
@@ -90,7 +86,7 @@
         /* Playlist list styles */
         .playlist-list {
             list-style: none;
-            padding: 0;
+            padding: 5px;
         }
 
         /* Playlist item styles */
@@ -195,9 +191,15 @@
 
         /* Search bar styles */
         .search-container {
+            position: fixed;
+            top: 10px;
+            left: 0;
+            width: 20%; /* Set the width to match the sidebar */
+            background-color: #121212; /* Spotify background color */
+            padding: 10px;
+            z-index: 2; /* Place it above other elements */
             display: flex;
             align-items: center;
-            margin-bottom: 20px;
         }
 
         #searchInput {
@@ -224,32 +226,38 @@
         #searchButton:hover {
             background-color: #169846; /* Lighter green on hover */
         }
+
+        /* Push content down to avoid overlap with fixed elements */
+        .content {
+            margin-top: 90px; /* Adjust the top margin to match header and search bar heights */
+            padding: 20px;
+            flex-grow: 1;
+        }
     </style>
 </head>
 <body>
-    <div class="sidebar">
-        <!-- Search bar container -->
-        <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Search...">
-            <button id="searchButton">Search</button>
-        </div>
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search...">
+        <button id="searchButton">Search</button>
+    </div>
 
-        <h2>Recent Playlists</h2>
+    <header>
+        <h1>Your Music</h1>
+    </header>
+
+    <div class="sidebar">
+        <h2>Your Library</h2>
         <ul class="playlist-list" id="recentPlaylistList">
             <!-- Recent playlists will be dynamically added here -->
         </ul>
-        
-        <h2>All Playlists</h2>
+
+        <h2>Playlists</h2>
         <ul class="playlist-list" id="allPlaylistList">
             <!-- All playlists will be dynamically added here -->
         </ul>
     </div>
 
-    <header>
-        <h1>Welcome to Your Dashboard</h1>
-    </header>
-
-    <div class="container">
+    <div class="content">
         <h2>Featured Playlists</h2>
         <div class="featured-playlists" id="featuredPlaylists">
             <!-- Playlist cards will be dynamically added here -->
@@ -263,9 +271,14 @@
             return urlParams.get('access_token');
         }
 
-        // Function to open the search.html file when the search button is clicked
+        // Function to open the search.html file with a search query parameter
         function openSearchPage() {
-            window.location.href = 'search.html';
+            const searchInput = document.getElementById('searchInput').value;
+            if (searchInput.trim() !== '') {
+                // Construct the search URL with the search query as a parameter
+                const searchUrl = `search.html?q=${encodeURIComponent(searchInput)}`;
+                window.location.href = searchUrl;
+            }
         }
 
         // Add event listener to the search button
@@ -314,7 +327,7 @@
 
         // Function to fetch and display user's recent playlists in the sidebar
         function fetchRecentPlaylists(accessToken) {
-            const recentPlaylistsUrl = 'https://api.spotify.com/v1/me/playlists?limit=5';
+            const recentPlaylistsUrl = 'https://api.spotify.com/v1/me/playlists?limit=20';
 
             fetch(recentPlaylistsUrl, {
                 headers: {

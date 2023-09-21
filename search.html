@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results - Spotify</title>
+    <style>
+        /* Global styles */
+        body {
+            background-color: #000; /* Black background */
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header styles */
+        header {
+            background-color: #121212; /* Spotify background color */
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 36px;
+            color: #1DB954; /* Spotify Green */
+            margin: 0;
+        }
+
+        /* Container styles */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Search query styles */
+        .search-query {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        /* Results styles (you can customize this section for displaying search results) */
+        .results {
+            /* Add your styles for displaying search results here */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Search Results</h1>
+    </header>
+
+    <div class="container">
+        <!-- Display the search query -->
+        <div class="search-query">
+            <p>Search Query: <strong id="searchQuery"></strong></p>
+        </div>
+
+        <!-- Display search results (customize this section) -->
+        <div class="results">
+            <!-- Add your code to display search results here -->
+        </div>
+    </div>
+
+    <script>
+        // Function to extract the search query from the URL parameter
+        function getSearchQueryFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('q');
+        }
+
+        // Display the search query on the page
+        const searchQuery = getSearchQueryFromURL();
+        if (searchQuery) {
+            const searchQueryElement = document.getElementById('searchQuery');
+            searchQueryElement.textContent = searchQuery;
+        }
+    </script>
+</body>
+</html>
