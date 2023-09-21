@@ -5,17 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Spotify</title>
     <style>
-        /* Your existing CSS styles here */
+        /* Global styles */
         body {
-            background-color: #000;
+            background-color: #121212; /* Spotify background color */
             color: #fff;
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
         }
 
+        /* Header styles */
         header {
-            background-color: #131413;
+            background-color: #121212; /* Spotify background color */
             padding: 20px;
             text-align: center;
         }
@@ -23,8 +24,10 @@
         header h1 {
             font-size: 36px;
             color: #1DB954; /* Spotify Green */
+            margin: 0;
         }
 
+        /* Container styles */
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -32,50 +35,62 @@
             display: flex;
         }
 
+        /* Sidebar styles */
         .sidebar {
             width: 20%;
-            background-color: #131413;
-            color: #fff;
+            background-color: #040404; /* Darker background color */
+            color: #fff; /* White text */
             padding: 20px;
             box-sizing: border-box;
             height: 100vh;
             position: fixed;
+            border-right: 2px solid #1DB954; /* Green border on the right */
         }
 
+        /* Playlist list styles */
         .playlist-list {
             list-style: none;
             padding: 0;
         }
 
+        /* Playlist item styles */
         .playlist-item {
             margin-bottom: 10px;
             display: flex;
             align-items: center;
-            border: 2px solid #1DB954;
-            border-radius: 5px;
             padding: 5px;
+            border: 2px solid #1DB954; /* Green border around each playlist */
+            border-radius: 5px;
+            background-color: #333; /* Darker background color */
         }
 
+        /* Playlist icon styles */
         .playlist-item img {
-            width: 40px;
-            height: 40px;
+            width: 60px;
+            height: 60px;
             margin-right: 10px;
+            border-radius: 50%; /* Make the playlist icons circular */
+            border: 2px solid #1DB954; /* Green border around the icons */
         }
 
+        /* Playlist link styles */
         .playlist-item a {
-            color: #1DB954;
+            color: #fff; /* White text */
             text-decoration: none;
         }
 
         .playlist-item a:hover {
-            color: #169846;
+            color: #1DB954; /* Green text on hover */
         }
 
+        /* Heading styles */
         h2 {
             font-size: 24px;
             margin-bottom: 20px;
+            color: #1DB954; /* Green text */
         }
 
+        /* Featured playlists container styles */
         .featured-playlists {
             display: flex;
             flex-wrap: wrap;
@@ -83,6 +98,7 @@
             margin-left: 25%;
         }
 
+        /* Playlist card styles */
         .playlist-card {
             background-color: #333;
             border-radius: 8px;
@@ -100,12 +116,14 @@
             transform: translateY(-5px);
         }
 
+        /* Playlist image styles */
         .playlist-card img {
             width: 100%;
             border-radius: 4px;
             box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
         }
 
+        /* Playlist title styles */
         .playlist-title {
             margin-top: 10px;
             font-size: 18px;
@@ -113,6 +131,7 @@
             text-overflow: ellipsis;
             overflow: hidden;
             white-space: nowrap;
+            color: #fff; /* White text */
         }
 
         /* Spotify Green color for links and buttons */
@@ -126,7 +145,7 @@
         }
 
         a:hover, button:hover {
-            color: #169846;
+            color: #169846; /* Lighter green on hover */
         }
 
         /* Center align text */
@@ -219,23 +238,18 @@
                     const playlistItem = document.createElement('li');
                     playlistItem.className = 'playlist-item';
 
-                    // Create an image element for the album cover
-                    const albumCover = document.createElement('img');
-                    albumCover.src = playlist.images[0].url;
-                    albumCover.alt = playlist.name;
-                    albumCover.width = 40;
-                    albumCover.height = 40;
+                    const playlistImage = document.createElement('img');
+                    playlistImage.src = playlist.images[0].url; // Assuming playlist cover is in the first image
+                    playlistImage.alt = playlist.name;
 
-                    // Create a link to the playlist
                     const playlistLink = document.createElement('a');
                     playlistLink.href = playlist.external_urls.spotify;
+                    playlistLink.target = '_blank';
                     playlistLink.textContent = playlist.name;
 
-                    // Append the album cover and link to the playlist item
-                    playlistItem.appendChild(albumCover);
+                    playlistItem.appendChild(playlistImage);
                     playlistItem.appendChild(playlistLink);
 
-                    // Append the playlist item to the playlist list
                     playlistList.appendChild(playlistItem);
                 });
             })
