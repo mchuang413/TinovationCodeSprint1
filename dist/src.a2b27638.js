@@ -77914,12 +77914,12 @@ var start = /*#__PURE__*/function () {
           } : _ref2$transform;
           modelParams = _objectSpread({
             flipHorizontal: true,
-            // flip for video
+            // flip e.g for video
             maxNumBoxes: 2,
             // maximum number of boxes to detect
             iouThreshold: 0.5,
             // ioU threshold for non-max suppression
-            scoreThreshold: 0.6
+            scoreThreshold: 0.55
           }, modelParams);
           _context.next = 5;
           return handTrack.startVideo(video);
@@ -77984,7 +77984,7 @@ function HammerCarousel(container, direction) {
   });
   this.hammer.add(new Hammer.Pan({
     direction: this.direction,
-    threshold: 10
+    threshold: 1
   }));
   this.hammer.on("panstart panmove panend pancancel", Hammer.bindFn(this.onPan, this));
   this.show(this.currentIndex);
@@ -78094,7 +78094,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58735" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61982" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

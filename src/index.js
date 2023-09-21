@@ -33,7 +33,7 @@ function HammerCarousel(container, direction) {
   this.hammer = new Hammer.Manager(this.container, {
     inputClass: Hammer.TouchInput
   });
-  this.hammer.add(new Hammer.Pan({ direction: this.direction, threshold: 10 }));
+  this.hammer.add(new Hammer.Pan({ direction: this.direction, threshold: 1 }));
   this.hammer.on(
     "panstart panmove panend pancancel",
     Hammer.bindFn(this.onPan, this)
