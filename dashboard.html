@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Spotify</title>
+    <style>
+           body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #131413;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 36px;
+            color: #1DB954; /* Spotify Green */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .featured-playlists {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .playlist-card {
+            background-color: #333;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 10px;
+            flex-basis: calc(33.33% - 20px);
+            box-sizing: border-box;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .playlist-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .playlist-card img {
+            width: 100%;
+            border-radius: 4px;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .playlist-title {
+            margin-top: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        /* Spotify Green color for links and buttons */
+        a, button {
+            color: #1DB954;
+            text-decoration: none;
+            border: none;
+            background: none;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        a:hover, button:hover {
+            color: #169846;
+        }
+
+        /* Center align text */
+        .text-center {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to Your Dashboard</h1>
+    </header>
+
+    <div class="container">
+        <h2>Featured Playlists</h2>
+        <div class="featured-playlists" id="featuredPlaylists">
+            <!-- Playlist cards will be dynamically added here -->
+        </div>
+    </div>
+
+    <script>
+        // Function to extract access token from URL parameters
+        function getAccessTokenFromURL() {
+            const urlParams = new URLSearchParams(window.location.hash.substring(1));
+            return urlParams.get('access_token');
+        }
+
+        // Function to fetch and display user's playlists
+        function fetchUserPlaylists(accessToken) {
+            const playlistUrl = 'https://api.spotify.com/v1/me/playlists';
+
+            fetch(playlistUrl, {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                const featuredPlaylists = document.getElementById('featuredPlaylists');
+
+                // Iterate over the first 3 playlists (or fewer if the user has fewer than three playlists)
+                for (let i = 0; i < Math.min(3, data.items.length); i++) {
+                    const playlist = data.items[i];
+                    const imageUrl = playlist.images[0].url; // Assuming playlist cover is in the first image
+
+                    // Create a playlist card and add it to the featuredPlaylists container
+                    const playlistCard = document.createElement('div');
+                    playlistCard.className = 'playlist-card';
+
+                    const playlistImage = document.createElement('img');
+                    playlistImage.src = imageUrl;
+                    playlistImage.alt = playlist.name;
+
+                    const playlistTitle = document.createElement('h3');
+                    playlistTitle.textContent = playlist.name;
+
+                    playlistCard.appendChild(playlistImage);
+                    playlistCard.appendChild(playlistTitle);
+
+                    featuredPlaylists.appendChild(playlistCard);
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching user playlists:', error);
+            });
+        }
+
+        // Entry point: Check for access token in the URL and fetch playlists
+        const accessToken = getAccessTokenFromURL();
+        if (accessToken) {
+            fetchUserPlaylists(accessToken);
+        } else {
+            console.error('Access token not found in URL.');
+        }
+    </script>
+</body>
+</html>

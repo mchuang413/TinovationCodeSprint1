@@ -1,55 +1,84 @@
 <!DOCTYPE html>
 <html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
-    <meta name="msapplication-tap-highlight" content="no"/>
-    <link rel="stylesheet" href="./assets/style.css">
-    <title>Swoosh</title>
+<head>
+    <title>Login to Spotify</title>
+    <style>
+        body {
+            background-color: #000;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .login-container {
+            border: 2px solid #1DB954;
+            padding: 40px; /* Increase padding to make the container bigger */
+            border-radius: 15px;
+        }
+
+        h1 {
+            font-size: 48px; /* Increase font size for the title */
+            margin-bottom: 20px;
+        }
+
+        .login-button {
+            background-color: #1DB954;
+            color: #fff;
+            border: none;
+            padding: 20px 40px; /* Increase padding for the button */
+            font-size: 24px; /* Increase font size for the button */
+            cursor: pointer;
+            border-radius: 50px;
+            transition: background-color 0.2s ease;
+        }
+
+        .login-button:hover {
+            background-color: #169846;
+        }
+    </style>
 </head>
 <body>
-    <div class="header">
-        <h1 class="title">Playlist Name</h1>
+    <div class="login-container">
+        <h1>Swoosh</h1>
+        <button class="login-button" onclick="loginWithSpotify()">Log In with Spotify</button>
     </div>
 
-    <div class="panes wrapper">
-        <div class="pane bg1">
-            <div class="content">
-                <h2>Title: Song 1</h2>
-                <p>Artist: Artist 1</p>
-            </div>
-        </div>
-        <div class="pane bg2">
-            <div class="content">
-                <h2>Title: Song 2</h2>
-                <p>Artist: Artist 2</p>
-            </div>
-        </div>
-        <div class="pane bg3">
-            <div class="content">
-                <h2>Title: Song 3</h2>
-                <p>Artist: Artist 3</p>
-            </div>
-        </div>
-        <div class="pane bg4">
-            <div class="content">
-                <h2>Title: Song 4</h2>
-                <p>Artist: Artist 4</p>
-            </div>
-        </div>
-        <div class="pane bg5">
-            <div class="content">
-                <h2>Title: Song 5</h2>
-                <p>Artist: Artist 5</p>
-            </div>
-        </div>
-    </div>
+    <script>
+        function loginWithSpotify() {
+            // Define your Spotify API client ID and the actual redirect URI you registered in the Spotify Dashboard
+            const clientId = 'd52b98fad21b4e1c93ee378d985f1534';
+            const redirectUri = 'http://127.0.0.1:5500/dashboard.html'; // Replace with your registered Spotify redirect URI
+            
+            // Generate a random state parameter (for security)
+            const state = Math.random().toString(36).substring(7);
 
-    <div id="handtrackjs">
-      <video autoplay="autoplay" style="display: none;"></video>
-      <canvas></canvas>
-    </div>
+            // Define the Spotify authorization URL
+            const authorizationUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=token&state=${state}&scope=user-read-private%20user-read-email`; // Add necessary scopes
 
-    <script src="./src/index.js"></script>
+            // Redirect the user to Spotify's login page
+            window.location.href = authorizationUrl;
+        }
+
+        // After the user logs in and is redirected back to your app, you can parse the access token from the URL and use it
+        function handleSpotifyLogin() {
+            const urlParams = new URLSearchParams(window.location.hash.substring(1));
+            const accessToken = urlParams.get('access_token');
+
+            if (accessToken) {
+                // Redirect to dashboard.html after successful login
+                window.location.href = 'dashboard.html';
+            }
+        }
+
+        // Call the function to handle the login redirect
+        handleSpotifyLogin();
+    </script>
 </body>
 </html>
