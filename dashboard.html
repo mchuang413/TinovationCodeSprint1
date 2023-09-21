@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Spotify</title>
     <style>
-           body {
+        /* Your existing CSS styles here */
+        body {
             background-color: #000;
             color: #fff;
             font-family: 'Arial', sans-serif;
@@ -28,6 +29,46 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
+            display: flex;
+        }
+
+        .sidebar {
+            width: 20%;
+            background-color: #131413;
+            color: #fff;
+            padding: 20px;
+            box-sizing: border-box;
+            height: 100vh;
+            position: fixed;
+        }
+
+        .playlist-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .playlist-item {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            border: 2px solid #1DB954;
+            border-radius: 5px;
+            padding: 5px;
+        }
+
+        .playlist-item img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .playlist-item a {
+            color: #1DB954;
+            text-decoration: none;
+        }
+
+        .playlist-item a:hover {
+            color: #169846;
         }
 
         h2 {
@@ -39,6 +80,7 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
+            margin-left: 25%;
         }
 
         .playlist-card {
@@ -94,6 +136,13 @@
     </style>
 </head>
 <body>
+    <div class="sidebar">
+        <h2>Recent Playlists</h2>
+        <ul class="playlist-list" id="playlistList">
+            <!-- Recent playlists will be dynamically added here -->
+        </ul>
+    </div>
+
     <header>
         <h1>Welcome to Your Dashboard</h1>
     </header>
@@ -152,10 +201,54 @@
             });
         }
 
-        // Entry point: Check for access token in the URL and fetch playlists
+        // Function to fetch and display user's recent playlists in the sidebar
+        function fetchRecentPlaylists(accessToken) {
+            const recentPlaylistsUrl = 'https://api.spotify.com/v1/me/playlists?limit=5';
+
+            fetch(recentPlaylistsUrl, {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                const playlistList = document.getElementById('playlistList');
+
+                // Iterate over the recent playlists
+                data.items.forEach(playlist => {
+                    const playlistItem = document.createElement('li');
+                    playlistItem.className = 'playlist-item';
+
+                    // Create an image element for the album cover
+                    const albumCover = document.createElement('img');
+                    albumCover.src = playlist.images[0].url;
+                    albumCover.alt = playlist.name;
+                    albumCover.width = 40;
+                    albumCover.height = 40;
+
+                    // Create a link to the playlist
+                    const playlistLink = document.createElement('a');
+                    playlistLink.href = playlist.external_urls.spotify;
+                    playlistLink.textContent = playlist.name;
+
+                    // Append the album cover and link to the playlist item
+                    playlistItem.appendChild(albumCover);
+                    playlistItem.appendChild(playlistLink);
+
+                    // Append the playlist item to the playlist list
+                    playlistList.appendChild(playlistItem);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching recent playlists:', error);
+            });
+        }
+
+        // Entry point: Check for access token in the URL and fetch playlists and recent playlists
         const accessToken = getAccessTokenFromURL();
         if (accessToken) {
             fetchUserPlaylists(accessToken);
+            fetchRecentPlaylists(accessToken);
         } else {
             console.error('Access token not found in URL.');
         }
