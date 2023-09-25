@@ -139,3 +139,4 @@ var options = {
   }
 };
 HandtrackTouch.start(outer.container, video, canvas, options);
+  
