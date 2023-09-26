@@ -43,18 +43,7 @@ const APIController = (function() {
         return data.playlists.items;
     }
 
-    const _getTracks = async (token, tracksEndPoint) => {
-
-        const limit = 10;
-
-        const result = await fetch(`${tracksEndPoint}?limit=${limit}`, {
-            method: 'GET',
-            headers: { 'Authorization' : 'Bearer ' + token}
-        });
-
-        const data = await result.json();
-        return data.items;
-    }
+    
 
     const _getTrack = async (token, trackEndPoint) => {
 

@@ -5,7 +5,7 @@
     <style>
         body {
             background-color: #000;
-            font-family: 'Arial', sans-serif;
+            font-family: Gotham;
             text-align: center;
             color: #fff;
             margin: 0;
@@ -17,9 +17,14 @@
             height: 100vh;
         }
 
+        @font-face {
+            font-family: Gotham;
+            src: url("/assets/fonts/Gotham-Bold.otf") format("opentype");
+        }
+
         .login-container {
             border: 2px solid #1DB954;
-            padding: 40px; /* Increase padding to make the container bigger */
+            padding: 40px;
             border-radius: 15px;
         }
 
@@ -53,7 +58,7 @@
     <script>
         function loginWithSpotify() {
             // Define your Spotify API client ID and the actual redirect URI you registered in the Spotify Dashboard
-            const clientId = 'd52b98fad21b4e1c93ee378d985f1534';
+            const clientId = '26fdedec776141afbd62856838f78ec7';
             const redirectUri = 'http://127.0.0.1:5500/dashboard.html'; // Replace with your registered Spotify redirect URI
             
             // Generate a random state parameter (for security)
@@ -61,7 +66,7 @@
 
             // Define the Spotify authorization URL
             const authorizationUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=token&state=${state}&scope=user-read-private%20user-read-email`; // Add necessary scopes
-
+                
             // Redirect the user to Spotify's login page
             window.location.href = authorizationUrl;
         }
@@ -77,7 +82,6 @@
             }
         }
 
-        // Call the function to handle the login redirect
         handleSpotifyLogin();
     </script>
 </body>

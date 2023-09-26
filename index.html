@@ -1,55 +1,98 @@
 <!DOCTYPE html>
-<html>
-<head lang="en">
+<html lang="en">
+<head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
-    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading...</title>
     <link rel="stylesheet" href="/assets/style.css">
-    <title>Swoosh</title>
-<script src="/src/jammer.js"></script>
+    <script src="/src/jammer.js"></script>
 </head>
 <body>
     <div class="header">
-        <h1 class="title">Playlist Name</h1>
+        <h1 class="title">Loading...</h1>
     </div>
 
-    <div class="panes wrapper">
-        <div class="pane bg1">
-            <div class="content">
-                <h2>Title: Song 1</h2>
-                <p>Artist: Artist 1</p>
-            </div>
-        </div>
-        <div class="pane bg2">
-            <div class="content">
-                <h2>Title: Song 2</h2>
-                <p>Artist: Artist 2</p>
-            </div>
-        </div>
-        <div class="pane bg3">
-            <div class="content">
-                <h2>Title: Song 3</h2>
-                <p>Artist: Artist 3</p>
-            </div>
-        </div>
-        <div class="pane bg4">
-            <div class="content">
-                <h2>Title: Song 4</h2>
-                <p>Artist: Artist 4</p>
-            </div>
-        </div>
-        <div class="pane bg5">
-            <div class="content">
-                <h2>Title: Song 5</h2>
-                <p>Artist: Artist 5</p>
-            </div>
-        </div>
+    <div class="panes wrapper" id="songPanes">
+        <!-- Song panes will be dynamically added here -->
     </div>
+
     <div id="handtrackjs">
         <video autoplay="autoplay" style="display: none;"></video>
         <canvas></canvas>
-      </div>
-  
-      <script src="./src/index.js"></script>
-    </body>
-    </html>
+    </div>
+
+    <script>
+        // Function to get the query parameter by name
+        function getQueryParamByName(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        const playlistId = getQueryParamByName('playlistId');
+        const accessToken = getQueryParamByName('access_token');
+        let data; // Define data variable outside of the function
+
+        async function printSongNames(playlistId, accessToken) {
+            if (playlistId && accessToken) {
+                let nextUrl = `https://api.spotify.com/v1/playlists/${playlistId}/tracks`;
+                const songNames = [];
+                
+                // Move playlistName variable outside of the loop
+                let playlistName = '';
+
+                while (nextUrl) {
+                    const response = await fetch(nextUrl, {
+                        headers: {
+                            'Authorization': `Bearer ${accessToken}`
+                        }
+                    });
+
+                    data = await response.json(); // Assign data here
+
+                    // Extract song names from the current page
+                    data.items.forEach((track, index) => {
+                        songNames.push(`${index + 1}. ${track.track.name}`);
+                    });
+
+                    // Check if there are more pages
+                    nextUrl = data.next;
+                    
+                    // Update the playlistName once we have data
+                    if (!playlistName && data.items.length > 0) {
+                        playlistName = data.items[0].track.album.name;
+                    }
+                }
+
+                console.log('Song Names:');
+                songNames.forEach(songName => {
+                    console.log(songName);
+                });
+
+                // Set the title and header to the playlist name
+                const playlistHeader = document.querySelector('.header h1.title');
+                const songPanes = document.getElementById('songPanes');
+
+                playlistHeader.textContent = playlistName; // Update header title
+
+                // Create panes for each song in the playlist
+                data.items.forEach((track, index) => {
+                    const pane = document.createElement('div');
+                    pane.className = `pane bg${index % 5 + 1}`;
+                    const content = document.createElement('div');
+                    content.className = 'content';
+                    const title = document.createElement('h2');
+                    title.textContent = `Title: ${track.track.name}`;
+                    const artist = document.createElement('p');
+                    artist.textContent = `Artist: ${track.track.artists[0].name}`;
+                    content.appendChild(title);
+                    content.appendChild(artist);
+                    pane.appendChild(content);
+                    songPanes.appendChild(pane);
+                });
+            }
+        }
+
+        printSongNames(playlistId, accessToken);
+    </script>
+</body>
+</html>

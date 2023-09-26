@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Spotify</title>
-    <link rel="stylesheet" href="/assets/style.css">>
+    <link rel="stylesheet" href="/assets/style.css">
 </head>
 <body>
     <div class="sidebar">
@@ -36,13 +36,11 @@
     </div>
 
     <script>
-        console.log(getAccessTokenFromURL());
         // Function to get access token from URL
         function getAccessTokenFromURL() {
             const urlParams = new URLSearchParams(window.location.hash.substring(1));
             return urlParams.get('access_token');
         }
-
 
         // Function to fetch and display user's playlists
         function fetchUserPlaylists(accessToken) {
@@ -72,6 +70,11 @@
 
                     playlistCard.appendChild(playlistImage);
                     playlistCard.appendChild(playlistTitle);
+
+                    // Pass the access token to redirectToIndex
+                    playlistCard.onclick = function () {
+                        redirectToIndex(playlist.id, accessToken);
+                    };
 
                     featuredPlaylists.appendChild(playlistCard);
                 }
@@ -120,13 +123,17 @@
             });
         }
 
-       
-
         const accessToken = getAccessTokenFromURL();
         if (accessToken) {
             fetchUserPlaylists(accessToken);
         } else {
             console.error('Access token not found in URL.');
+        }
+
+        function redirectToIndex(playlistId, accessToken) {
+            const indexURL = `/index.html?playlistId=${encodeURIComponent(playlistId)}&access_token=${encodeURIComponent(accessToken)}`;
+            
+            window.location.href = indexURL;
         }
     </script>
 </body>

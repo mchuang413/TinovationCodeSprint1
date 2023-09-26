@@ -39,6 +39,18 @@ pre {
   margin-bottom: 20px; /* Add margin to create space between container and header */
 }
 
+.left-container {
+  max-width: 900px;
+  margin: 20px 0 0 20px; /* Add top and left margins */
+  background: #111; /* Add the same dark grey background color here */
+  padding: 20px;
+  border-radius: 10px;
+  color: #fff; /* Set text color to white */
+  margin-bottom: 20px; /* Add margin to create space between container and header */
+}
+
+
+
 .clear {
   clear: both;
 }
@@ -80,14 +92,14 @@ pre {
   align-items: center;
   background: rgba(30, 215, 96, 0.5);
   border-radius: 15px;
-  margin: 5px; /* Add margin to increase spacing */
+  margin: 5px; 
 }
 
 .content {
   background: rgba(0, 0, 0, 0.8);
   border-radius: 10px;
   padding: 20px;
-  margin-top: 0; /* Add margin to increase spacing */
+  margin-top: 0;
 }
 
 .panes.animate > .pane {
@@ -101,20 +113,20 @@ p {
 }
 
 .header {
-  background-color: #1a1a1a; /* Background color for the header */
+  background-color: #1a1a1a; 
   text-align: center;
   padding: 30px 0;
 }
 
 .title {
-  color: white; /* Text color for the title */
-  font-size: 40px; /* Adjust font size as needed */
-  margin: 0; /* Remove default margin */
+  color: white; 
+  font-size: 40px; 
+  margin: 0; 
 }
 
-/* Styles from dashboard.html */
+/* Styles for dashboard */
 body {
-  background-color: #000; /* Black background */
+  background-color: #000; 
   color: #fff;
   font-family: 'Arial', sans-serif;
   margin: 0;
@@ -123,14 +135,14 @@ body {
 
 /* Header styles */
 header {
-  background-color: #121212; /* Spotify background color */
+  background-color: #121212; /* spot background color */
   padding: 20px;
   text-align: center;
 }
 
 header h1 {
   font-size: 36px;
-  color: #1DB954; /* Spotify Green */
+  color: #1DB954; /* spot green */
   margin: 0;
 }
 
@@ -145,15 +157,15 @@ header h1 {
 /* Sidebar styles */
 .sidebar {
   width: 20%;
-  background-color: rgba(18, 18, 18, 1); /* Rounded box color */
+  background-color: rgba(18, 18, 18, 1); /* box color */
   color: #fff; /* White text */
   padding: 20px;
   box-sizing: border-box;
   height: 100vh;
   position: fixed;
-  border-radius: 20px; /* Rounded corners for the sidebar */
-  border-right: 2px solid #1DB954; /* Green border on the right */
-  overflow-y: auto; /* Enable vertical scrolling */
+  border-radius: 20px; /* rounded corners*/
+  border-right: 2px solid #1DB954; /* green border */
+  overflow-y: auto; /* vertical scrolling */
   overflow-x: hidden;
 }
 
@@ -165,7 +177,7 @@ header h1 {
   left: -20px;
   width: 40px;
   height: 100%;
-  background: rgba(18, 18, 18, 1); /* Rounded box color */
+  background: rgba(18, 18, 18, 1); 
   border-radius: 50%;
 }
 
@@ -176,7 +188,7 @@ header h1 {
   right: -20px;
   width: 40px;
   height: 100%;
-  background: rgba(18, 18, 18, 1); /* Rounded box color */
+  background: rgba(18, 18, 18, 1);  
   border-radius: 50%;
 }
 
@@ -237,12 +249,12 @@ h2 {
   color: #fff; /* Green text */
 }
 
-/* Featured playlists container styles */
 .featured-playlists {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  margin-left: 25%;
+  justify-content: flex-start; /* Change to flex-start to left-align cards */
+  margin-left: 20px; /* Adjust margin for spacing on the left */
+  margin-top: 20px; /* Add margin to the top */
 }
 
 /* Playlist card styles */
@@ -250,7 +262,7 @@ h2 {
   background-color: #333;
   border-radius: 8px;
   padding: 20px;
-  margin: 10px;
+  margin: 10px 10px 10px 0; /* Adjust margin for spacing between cards */
   flex-basis: calc(33.33% - 20px);
   box-sizing: border-box;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
@@ -259,9 +271,14 @@ h2 {
   overflow: hidden;
 }
 
+.playlist-card:nth-child(3n) {
+  margin-right: 0;
+}
+
 .playlist-card:hover {
   transform: translateY(-5px);
 }
+
 
 /* Playlist image styles */
 .playlist-card img {
