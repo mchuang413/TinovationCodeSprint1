@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login to Spotify</title>
+    <style>body {
+            background-color: #000;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .login-container {
+            border: 2px solid #1DB954;
+            padding: 40px; /* Increase padding to make the container bigger */
+            border-radius: 15px;
+        }
+
+        h1 {
+            font-size: 48px; /* Increase font size for the title */
+            margin-bottom: 20px;
+        }
+
+        .login-button {
+            background-color: #1DB954;
+            color: #fff;
+            border: none;
+            padding: 20px 40px; /* Increase padding for the button */
+            font-size: 24px; /* Increase font size for the button */
+            cursor: pointer;
+            border-radius: 50px;
+            transition: background-color 0.2s ease;
+        }
+
+        .login-button:hover {
+            background-color: #169846;
+        }</style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>Swoosh</h1>
+        <button class="login-button" onclick="loginWithSpotify()">Log In with Spotify</button>
+    </div>
+
+    <script>function loginWithSpotify() {
+  // Define your Spotify API client ID and the actual redirect URI you registered in the Spotify Dashboard
+  var clientId = 'd52b98fad21b4e1c93ee378d985f1534';
+  var redirectUri = 'http://127.0.0.1:5500/dashboard.html'; // Replace with your registered Spotify redirect URI
+
+  // Generate a random state parameter (for security)
+  var state = Math.random().toString(36).substring(7);
+
+  // Define the Spotify authorization URL
+  var authorizationUrl = "https://accounts.spotify.com/authorize?client_id=".concat(clientId, "&redirect_uri=").concat(encodeURIComponent(redirectUri), "&response_type=token&state=").concat(state, "&scope=user-read-private%20user-read-email"); // Add necessary scopes
+
+  // Redirect the user to Spotify's login page
+  window.location.href = authorizationUrl;
+}
+function handleSpotifyLogin() {
+  var urlParams = new URLSearchParams(window.location.hash.substring(1));
+  var accessToken = urlParams.get('access_token');
+  if (accessToken) {
+    // Redirect to dashboard.html after successful login
+    window.location.href = 'dashboard.html';
+  }
+}
+handleSpotifyLogin();</script>
+</body>
+</html>

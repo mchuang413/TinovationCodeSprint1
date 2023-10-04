@@ -2,15 +2,10 @@
     "name": "swoosh-spotify",
     "version": "1.0.0",
     "description": "repo at https://github.com/mjyc/jammerjs",
-    "main": "index.html",
+    "main": "login.html",
     "scripts": {
-      "start": "parcel index.html --open",
-      "build": "parcel build index.html"
-    },
-    "dependencies": {
-      "hammer-simulator": "0.0.1",
-      "hammerjs": "2.0.8",
-      "handtrackjs": "0.0.13"
+      "start": "parcel login.html --open --port 5500",
+      "build": "parcel build login.html"
     },
     "devDependencies": {
       "@babel/core": "7.2.0",
@@ -18,3 +13,4 @@
     },
     "keywords": []
   }
+

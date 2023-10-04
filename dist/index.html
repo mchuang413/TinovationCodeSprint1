@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head lang="en">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
     <meta name="msapplication-tap-highlight" content="no">
     <link rel="stylesheet" href="/style.cd660723.css">
     <title>Swoosh</title>
-<script src="/jammer.2bc7fee4.js"></script>
+    <script src="/jammer.2bc7fee4.js"></script>
 <script src="/style.cd660723.js"></script></head>
 <body>
     <div class="header">
@@ -14,42 +14,70 @@
     </div>
 
     <div class="panes wrapper">
-        <div class="pane bg1">
-            <div class="content">
-                <h2>Title: Song 1</h2>
-                <p>Artist: Artist 1</p>
-            </div>
-        </div>
-        <div class="pane bg2">
-            <div class="content">
-                <h2>Title: Song 2</h2>
-                <p>Artist: Artist 2</p>
-            </div>
-        </div>
-        <div class="pane bg3">
-            <div class="content">
-                <h2>Title: Song 3</h2>
-                <p>Artist: Artist 3</p>
-            </div>
-        </div>
-        <div class="pane bg4">
-            <div class="content">
-                <h2>Title: Song 4</h2>
-                <p>Artist: Artist 4</p>
-            </div>
-        </div>
-        <div class="pane bg5">
-            <div class="content">
-                <h2>Title: Song 5</h2>
-                <p>Artist: Artist 5</p>
-            </div>
-        </div>
+        <!-- Panes will be dynamically added here -->
     </div>
     <div id="handtrackjs">
         <video autoplay="autoplay" style="display: none;"></video>
         <canvas></canvas>
-      </div>
-  
-      <script src="/src.a2b27638.js"></script>
-    </body>
-    </html>
+    </div>
+
+    <script>// Function to get playlist ID and access token from URL
+function getPlaylistIdAndAccessTokenFromURL() {
+  var urlParams = new URLSearchParams(window.location.search);
+  return {
+    playlistId: urlParams.get('playlistId'),
+    accessToken: urlParams.get('access_token')
+  };
+}
+
+// Function to fetch songs from the specified playlist
+function fetchPlaylistSongs(playlistId, accessToken) {
+  var playlistUrl = "https://api.spotify.com/v1/playlists/".concat(playlistId, "/tracks");
+  fetch(playlistUrl, {
+    headers: {
+      'Authorization': "Bearer ".concat(accessToken)
+    }
+  }).then(function (response) {
+    return response.json();
+  }).then(function (data) {
+    // Get the reference to the "panes wrapper" div
+    var panesWrapper = document.querySelector('.panes.wrapper');
+
+    // Loop to create and append new panes for each song
+    data.items.forEach(function (track, i) {
+      // Create a new pane div
+      var newPane = document.createElement('div');
+      newPane.classList.add('pane');
+
+      // Create the content for the new pane
+      var newContent = document.createElement('div');
+      newContent.classList.add('content');
+      newContent.innerHTML = "<h2>Title: ".concat(track.track.name, "</h2><p>Artist: ").concat(track.track.artists[0].name, "</p>");
+
+      // Append the content to the new pane
+      newPane.appendChild(newContent);
+
+      // Append the new pane to the "panes wrapper"
+      panesWrapper.appendChild(newPane);
+    });
+  }).catch(function (error) {
+    console.error('Error fetching playlist songs:', error);
+  });
+}
+
+// Get playlist ID and access token from the URL
+var _getPlaylistIdAndAcce = getPlaylistIdAndAccessTokenFromURL(),
+  playlistId = _getPlaylistIdAndAcce.playlistId,
+  accessToken = _getPlaylistIdAndAcce.accessToken;
+
+// Check if playlistId and accessToken are available
+if (playlistId && accessToken) {
+  // Fetch and display songs from the specified playlist
+  fetchPlaylistSongs(playlistId, accessToken);
+} else {
+  console.error('Playlist ID or Access Token not found in URL.');
+}</script>
+    
+    <script src="/src.a2b27638.js"></script>
+</body>
+</html>

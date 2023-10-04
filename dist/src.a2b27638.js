@@ -77988,6 +77988,8 @@ function HammerCarousel(container, direction) {
   }));
   this.hammer.on("panstart panmove panend pancancel", Hammer.bindFn(this.onPan, this));
   this.show(this.currentIndex);
+  console.log('Number of panes:', this.panes.length);
+  console.log('Container size:', this.containerSize);
 }
 HammerCarousel.prototype = {
   /**
@@ -78094,7 +78096,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59294" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62411" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

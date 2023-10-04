@@ -64,9 +64,10 @@
 
             // Redirect the user to Spotify's login page
             window.location.href = authorizationUrl;
+
+            
         }
 
-        // After the user logs in and is redirected back to your app, you can parse the access token from the URL and use it
         function handleSpotifyLogin() {
             const urlParams = new URLSearchParams(window.location.hash.substring(1));
             const accessToken = urlParams.get('access_token');
@@ -76,8 +77,6 @@
                 window.location.href = 'dashboard.html';
             }
         }
-
-        // Call the function to handle the login redirect
         handleSpotifyLogin();
     </script>
 </body>

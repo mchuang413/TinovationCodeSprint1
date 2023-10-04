@@ -39,6 +39,18 @@ pre {
   margin-bottom: 20px; /* Add margin to create space between container and header */
 }
 
+.left-container {
+  max-width: 900px;
+  margin: 20px 0 0 20px; /* Add top and left margins */
+  background: #111; /* Add the same dark grey background color here */
+  padding: 20px;
+  border-radius: 10px;
+  color: #fff; /* Set text color to white */
+  margin-bottom: 20px; /* Add margin to create space between container and header */
+}
+
+
+
 .clear {
   clear: both;
 }
@@ -237,12 +249,12 @@ h2 {
   color: #fff; /* Green text */
 }
 
-/* Featured playlists container styles */
 .featured-playlists {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  margin-left: 25%;
+  justify-content: flex-start; /* Change to flex-start to left-align cards */
+  margin-left: 20px; /* Adjust margin for spacing on the left */
+  margin-top: 20px; /* Add margin to the top */
 }
 
 /* Playlist card styles */
@@ -250,7 +262,7 @@ h2 {
   background-color: #333;
   border-radius: 8px;
   padding: 20px;
-  margin: 10px;
+  margin: 10px 10px 10px 0; /* Adjust margin for spacing between cards */
   flex-basis: calc(33.33% - 20px);
   box-sizing: border-box;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
@@ -259,9 +271,14 @@ h2 {
   overflow: hidden;
 }
 
+.playlist-card:nth-child(3n) {
+  margin-right: 0;
+}
+
 .playlist-card:hover {
   transform: translateY(-5px);
 }
+
 
 /* Playlist image styles */
 .playlist-card img {

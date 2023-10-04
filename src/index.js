@@ -40,6 +40,9 @@ function HammerCarousel(container, direction) {
   );
 
   this.show(this.currentIndex);
+  console.log('Number of panes:', this.panes.length);
+console.log('Container size:', this.containerSize);
+
 }
 
 HammerCarousel.prototype = {
@@ -139,4 +142,5 @@ var options = {
   }
 };
 HandtrackTouch.start(outer.container, video, canvas, options);
+
   
